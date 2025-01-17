@@ -1,0 +1,15 @@
+#one {
+    font-size: 3rem;
+    border: 20px solid pink;
+    background-color: red;
+    height: 100px;
+    width: 100px;
+}
+
+#two {
+    font-size: 3rem;
+    border: 20px solid blue;
+    background-color: orange;
+    height: 100px;
+    width: 100px;
+}
