@@ -1,0 +1,314 @@
+@font-face {
+    font-family:"SFPro";
+    src: url(SFPRODISPLAYREGULAR.OTF);
+}
+@font-face {
+    font-family:"SFProMed";
+    src: url(SFPRODISPLAYMEDIUM.OTF);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+html, body{
+    font-family: "SFPro";
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.myportfolio {
+    font-family:"SFProMed";
+    font-size: 1.9rem;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.name {
+    font-family: "SFPro";
+}
+
+.header {
+    background-color: white;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+.navlist {
+    display: flex;
+}
+
+.item {
+    list-style: none;
+    padding: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.item:hover {
+    transform: scale(1.05);
+}
+
+.landing {
+    position:relative;
+    width: 100%;
+    height: 50vh;
+    background-image: linear-gradient(#57210C,black);
+    text-align:left;
+    display: flex;
+    flex-direction:row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 20px;
+    margin-top: 80px;
+    color: white;
+}
+
+.kyle {
+    width: 400px;
+    height: 400px;
+    margin-left: 100px;
+    margin-right: 20px;
+}
+
+.headline {
+    font-family: "SFProMed";
+    font-size: 4rem;
+    margin-top: 0px;
+    line-height: 0.1;
+}
+
+.subhead {
+    margin-top: 0px;
+    margin-bottom: 40px;
+    font-size: 1rem;
+    line-height: 0.1;
+}
+
+.aboutme {
+    font-size: 1.5rem;
+    max-width: 60%;
+    text-align: justify;
+    line-height: 1.5;
+}
+
+.skills {
+    position:relative;
+    width: 100%;
+    max-width: 100vw;
+    height: 50vh;
+    background-image: linear-gradient(#263580, #8895D6);
+    text-align:left;
+    display: flex;
+    flex-direction:column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 20px;
+    margin-top: 10px;
+    color: white;
+}
+
+.headline2 {
+    font-family: "SFProMed";
+    font-size: clamp(2rem, 4vw, 4.5rem);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    z-index: 1;
+    position: relative;
+}
+
+.skillsphotos {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+}
+
+.skillsimage {
+    width: 300px;
+    height: 300px;
+    z-index: 1;
+}
+
+#python {
+    width: 350px;
+    height: 350px;
+    margin-top: 20px;
+}
+
+#java {
+    width: 280px;
+    height: 280px;
+    margin-top: 40px;
+}
+
+#csharp {
+    width: 260px;
+    height: 260px;
+    margin-top: 70px;
+}
+
+#html {
+    width: 310px;
+    height: 310px;
+    margin-top: 50px;
+
+}
+
+
+#css {
+    width: 200px;
+    height: 200px;
+    margin-top: 100px;
+    margin-left: 50px;
+}
+
+#javascript {
+    width: 230px;
+    height: 230px;
+    margin-top: 80px;
+    margin-left: 50px;
+}
+
+.projects {
+    position: relative;
+    width: 100%;
+    max-width: 100vw;
+    height: 100vh;
+    padding-top: 20px;
+    margin: 0;
+}
+
+.project1, .project2, .project3, .project4 {
+    position: absolute; /* Set the height for each "window" */
+    width: 49%;
+    height: 43%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Text color inside the boxes */
+    font-size: 1.5rem;
+    margin: 10px;
+    border: 3px solid #000;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.project1 {
+    top: 10%;
+    left: 0;
+}
+
+.project1:hover .projbutton {
+    opacity: 1;
+}
+
+.project2 {
+    top: 10%;
+    right: 0;
+}
+
+.project2:hover .projbutton {
+    opacity: 1;
+}
+
+.project3 {
+    top: 54%;
+    left: 0;
+}
+
+.project4 {
+    top: 54%;
+    right: 0;
+    background-color: white;
+    color: black;
+    border: 0px;
+    gap: 10px;
+}
+
+.contacts {
+    position: relative;
+    width: 100%;
+}
+
+.projectimage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    opacity: 70%;
+}
+
+.projectimage:hover {
+    opacity: 100%;
+    transition: opacity 0.5s ease;
+}
+
+.textcontainer h1 {
+    margin-bottom: 5px;
+}
+
+.button {
+    font-family: "SFProMed";
+    padding: 10px 40px;
+    font-size: 1.1rem;
+    color: black;
+    border: 2px solid #000;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.projbutton {
+    font-family: "SFProMed";
+    padding: 10px 40px;
+    font-size: 1.1rem;
+    color: black;
+    border: 3px solid #000;
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0; /* Hide the text initially */
+    transition: opacity 0.3s ease;
+}
+
+.projbutton:hover {
+    background-color: transparent;
+    color: white;
+    border-color: white;
+    opacity: 1;
+}
+
+.button:hover {
+    background-color: black;
+    color: white;
+}
+
+.contacts {
+    text-align: left;
+    margin-left: 20px;
+    line-height: 0.3;
+
+}
+
+.contacts h1 {
+    text-align: left;
+    font-size: 3rem;
+    margin-bottom: 30px;
+}
