@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/styles.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200'>
+    <title>Kelsey's Homestay</title>
+</head>
+<body>
+    <header class='header'>
+        <div id='header_logo'>
+            <h1>Kelsey's Homestay</h1>
+            <h2>Administrator Portal</h2>
+        </div>
+        <div id='nav-container'>
+            <nav>
+                <a href='#'>Expenses</a>
+                <a href='#'>Properties</a>
+                <a href='#'>Customers</a>
+                <a href='#'>Agents</a>
+            </nav>
+        </div>
+    </header>
+    <section class='body'>
+        <div class='booking-row'>
+            <div class='sched-container'>
+                <div class='cal-container'>
+                    <div class='date-header'>
+                        <div class='calendar-header-title'>
+                            <p class='current-date'></p>
+                        </div>
+                        <div class="icons">
+                            <span id='prev' class="material-symbols-rounded">chevron_left</span>
+                            <span id='next' class='material-symbols-rounded'>chevron_right</span>
+                        </div>
+                    </div>
+                    <div class='calendar'>
+                        <ul class='weeks'>
+                            <li>Sun</li>
+                            <li>Mon</li>
+                            <li>Tue</li>
+                            <li>Wed</li>
+                            <li>Thur</li>
+                            <li>Fri</li>
+                            <li>Sat</li>
+                        </ul>
+                        <ul class='days'>
+                            
+                            </ul>
+                        </ul>
+                    </div>
+                </div>
+                <div class='unit-picker'>
+                    <select class='unit-dropdown' id='selected-calendar-unit'>
+                    </select>
+                    <button id='select-unit'>Select Unit</button>
+                </div>
+            </div>
+            <div class='booking-container'>
+                <div class='create-booking'>
+                    <h1 class='header-element1'>Create Booking</h1>
+                    <label for='booking_datefrom'>
+                        <span class='booking-label'>CHECK IN <sup>*</sup></span>
+                        <input type='date' id='booking_datefrom' required>
+                    </label>
+                    <label for='booking_dateto'>
+                        <span class='booking-label'>CHECK OUT  <sup>*</sup></span>
+                        <input type='date' id='booking_dateto' required>
+                    </label>
+                    <label for='unit'>
+                        <span class='booking-label'>UNIT  <sup>*</sup></span>
+                        <select class='unit-dropdown' id='unit' required>
+                        </select>
+                    </label>
+                    <label for='customer'>
+                        <span class='booking-label'>CUSTOMER  <sup>*</sup></span>
+                        <label id='label2'>
+                            <input type='text' id='customer_name' placeholder='Name' required>
+                            <input type='email' id='customer_email' placeholder='Email' required>
+                        </label>
+                    </label>
+                    <label for='booking_pax'>
+                        <span class='booking-label'>NO. OF PAX  <sup>*</sup></span>
+                        <input type='number' id='booking_pax' required>
+                    </label>
+                    <label for='booking_deposit'>
+                        <span class='booking-label'>DEPOSIT  <sup>*</sup></span>
+                        <input type='text' id='booking_deposit' required>
+                    </label>
+                    <label for='booking_payment'>
+                        <span class='booking-label'>PAYMENT OPTION  <sup>*</sup></span>
+                        <select id='booking_payment' required>
+                            <option value='Cash'>Cash</option>
+                            <option value='GCash'>Gcash</option>
+                            <option value='Bank Transfer'>Bank Transfer</option>
+                        </select>
+                    </label>
+                    <label for='agent'>
+                        <span class='booking-label'>AGENT</span>
+                        <label id='label2'>
+                            <input type='text' id='agent_name' placeholder='Name'>
+                            <input type='email' id='agent_email' placeholder='Email'>
+                        </label>
+                    </label>
+                    <label for='booking_commission'>
+                        <span class='booking-label'>COMMISSION</span>
+                        <input type='text' id='booking_commission'>
+                    </label>
+                    <input type='submit' value='Create Booking' id='create-booking-button'>
+                </div>
+            </div>
+            <div class='customer-agent-container'>
+                <div class='customer-container'>
+                    <h1 class='header-element1'>Add Customer</h1>
+                    <label for='customer_name'>
+                        <span class='booking-label'>NAME  <sup>*</sup></span>
+                        <input type='text' id='customer_customer_name' required>
+                    </label>
+                    <label for='customer_email'>
+                        <span class='booking-label'>EMAIL  <sup>*</sup></span>
+                        <input type='email' id='customer_customer_email' required>
+                    </label>
+                    <label for='customer_contactnum'>
+                        <span class='booking-label'>CONTACT NO.  <sup>*</sup></span>
+                        <input type='text' id='customer_customer_contactnum' required>
+                    </label>
+                    <label for='customer_birthdate'>
+                        <span class='booking-label'>BIRTHDATE  <sup>*</sup></span>
+                        <input type='date' id='customer_customer_birthdate' required>
+                    </label>
+                    <input type='submit' value='Add Customer' id='add-customer-button'>
+                </div>
+                <div class='agent-container'>
+                    <h1 class='header-element1'>Add Agent</h1>
+                    <label for='agent_agent_name'>
+                        <span class='booking-label'>NAME  <sup>*</sup></span>
+                        <input type='text' id='agent_agent_name' required>
+                    </label>
+                    <label for='agent_agent_email'>
+                        <span class='booking-label'>EMAIL  <sup>*</sup></span>
+                        <input type='email' id='agent_agent_email' required>
+                    </label>
+                    <label for='agent_agent_contactnum'>
+                        <span class='booking-label'>CONTACT NO.  <sup>*</sup></span>
+                        <input type='text' id='agent_agent_contactnum' required>
+                    </label>
+                    <input type='submit' value='Add Agent' id='add-agent-button'>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="booking-listings">
+        <h1>BOOKINGS</h1>
+        <div class='listing-container'>
+            <table id="booking-table">
+                <thead>
+                    <tr>
+                        <th class='table-header'>BOOKING ID</th>
+                        <th class='table-header' style="width: 150px">CHECK IN</th>
+                        <th class='table-header' style="width: 150px">CHECK OUT</th>
+                        <th class='table-header' style="width: 170px">UNIT</th>
+                        <th class='table-header' style="width: 260px">CUSTOMER</th>
+                        <th class='table-header' style="width: 70px">PAX</th>
+                        <th class='table-header' style="width: 100px">DEPOSIT</th>
+                        <th class='table-header' style="width: 150px">PAYMENT</th>
+                        <th class='table-header' style="width: 260px">AGENT</th>
+                        <th class='table-header' style="width: 100px">COMMISSION</th>
+                        <th class='table-header' style="width: 100px">RATE</th>
+                        <th class='table-header' style="width: 100px">EXTRA PAX RATE</th>
+                        <th class='table-header' style="width: 100px">TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody id="booking-body">
+
+                </tbody>
+            </table>            
+        </div>
+        <div class='buttons'>
+            <button id='edit-button'>Edit Booking</button>
+            <button id='remove-booking'>Remove Booking</button>
+        </div>
+    </section>
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Booking</h2>
+            <p><strong>Check-In:</strong> <span id="confirm-checkin"></span></p>
+            <p><strong>Check-Out:</strong> <span id="confirm-checkout"></span></p>
+            <p><strong>Unit:</strong> <span id="confirm-unit"></span></p>
+            <p><strong>Customer:</strong> <span id="confirm-customer"></span></p>
+            <p><strong>No. of Pax:</strong> <span id="confirm-pax"></span></p>
+            <p><strong>Deposit:</strong> <span id="confirm-deposit"></span></p>
+            <p><strong>Payment:</strong> <span id="confirm-payment"></span></p>
+            <p><strong>Agent:</strong> <span id="confirm-agent"></span></p>
+            <p><strong>Commission:</strong> <span id="confirm-commission"></span></p>
+            <p><strong>Rate:</strong> <span id="confirm-rate"></span></p>
+            <p><strong>Extra Pax Fee:</strong> <span id="confirm-extrapaxfee"></span></p>
+            <p><strong>Total:</strong> <span id="confirm-total"></span></p>
+
+            <input type="submit" value="Confirm Booking" id="confirm-submit">
+            <input type="button" value="Cancel" id="cancel-submit">
+        </div>
+    </div>
+    <script src='/script.js'></script>
+</body>
+</html>

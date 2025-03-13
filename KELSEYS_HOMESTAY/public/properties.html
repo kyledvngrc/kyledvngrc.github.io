@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/properties.css'>
+    <title>Properties</title>
+</head>
+<body>
+    <header class='header'>
+        <div id='header_logo'>
+            <h1>Kelsey's Homestay</h1>
+            <h2>Administrator Portal</h2>
+        </div>
+        <div id='nav-container'>
+            <nav>
+                <a href='#'>Expenses</a>
+                <a href='#'>Properties</a>
+                <a href='#'>Customers</a>
+                <a href='#'>Agents</a>
+            </nav>
+        </div>
+    </header>
+    <section class='body'>
+        <h1 id='properties-header'>PROPERTIES</h1>
+        <div class='table-container'>
+            <table id="properties-table">
+                <thead>
+                    <tr>
+                        <th class='table-header' style="width: 75px">UNIT_ID</th>
+                        <th class='table-header' style="width: 250px">NAME</th>
+                        <th class='table-header' style="width: 100px">NO. OF PAX</th>
+                        <th class='table-header' style="width: 150px">PRICE</th>
+                        <th class='table-header' style="width: 150px">EXTRA PAX FEE</th>
+                        <th class='table-header' style="width: 150px">SIZE</th>
+                        <th class='table-header' style="width: 250px">DESC</th>
+                        <th class='table-header' style="width: 75px">BUILDING_ID</th>
+                    </tr>
+                </thead>
+                <tbody id="booking-body">
+    
+                </tbody>
+            </table> 
+        </div>
+        <div class='add-container'>
+            <h1>Add a property</h1>
+            <div class='input-menu'>
+                <div class='property-input'>
+                    <label for='property_name'>
+                        <span id="span_property_name">PROPERTY NAME</span>
+                        <input type='text' id='property_name' placeholder=" ex. Avida Towers" required>
+                    </label>
+                    <label for='property_address'>
+                        <span id='span_property_address'>ADDRESS</span>
+                        <input type='text' id='property_address' placeholder=" ex. 123 Main St" required>
+                    </label>
+                    <label for='building_tower'>
+                        <span id='span_building_tower'>BUILDING TOWER</span>
+                        <input type='text' id='building_tower' required>
+                    </label>
+                    <label for='building_floor'>
+                        <span id='span_building_floor'>FLOOR LEVEL</span>
+                        <input type='number' id='building_floor' required>
+                    </label>
+                </div>
+                <div class='unit-input'>
+                    <label for='unit_name'>
+                        <span id='span_unit_name'>UNIT NO.</span>
+                        <input type='text' id='unit_name' placeholder='ex. 711' required>
+                    </label>
+                    <label for='unit_pax'>
+                        <span id='span_unit_name'>NO. OF PAX</span>
+                        <input type='number' id='unit_pax' required>
+                    </label>
+                    <label for='unit_price'>
+                        <span id='span_unit_price'>PRICE</span>
+                        <input type='number' id='unit_price' required>
+                    </label>
+                    <label for='unit_extraPaxFee'>
+                        <span id='span_unit_extraPaxFee'>EXTRA PAX FEE</span>
+                        <input type='number' id='unit_extraPaxFee' required>
+                    </label>
+                    <label for='unit_size'>
+                        <span id='span_unit_size'>SIZE</span>
+                        <input type='text' id='unit_size' required>
+                    </label>
+                    <label for='unit_desc'>
+                        <span id='span_unit_desc'>DESCRIPTION</span>
+                        <input type='text' id='unit_desc' required>
+                    </label>
+                </div>
+                <div class='input-buttons'>
+                    <input type='submit' value='Add Property' id="add_property_button">
+                    <input type='submit' value="Edit Property" id='edit_property_button'>
+                    <input type='submit' value='Delete Property' id='edit_property_button'>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src='/properties.js'></script>
+</body>
+</html>
