@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/agent.css'>
+    <title>Agents</title>
+</head>
+<body>
+    <header class='header'>
+        <div id='header_logo'>
+            <h1><a href='http://localhost:5500/homepage'>Kelsey's Homestay</a></h1>
+            <h2>Administrator Portal</h2>
+        </div>
+        <div id='nav-container'>
+            <nav>
+                <a href='http://localhost:5500/homepage'>Bookings</a>
+                <a href='http://localhost:5500/expenses'>Expenses</a>
+                <a href='http://localhost:5500/properties'>Properties</a>
+                <a href='http://localhost:5500/customers'>Customers</a>
+                <a href='http://localhost:5500/agents'>Agents</a>
+            </nav>
+        </div>
+    </header>
+    <section class='body'>
+        <h1 id='agents-header'>Agents</h1>
+        <div class='table-container'>
+            <table id="agents-table">
+                <thead>
+                    <tr>
+                        <th class='table-header' style="width: 75px">AGENT ID</th>
+                        <th class='table-header' style="width: 250px">NAME</th>
+                        <th class='table-header' style="width: 100px">EMAIL</th>
+                        <th class='table-header' style="width: 150px">CONTACT NUMBER</th>
+                    </tr>
+                </thead>
+                <tbody id="agents-body">
+    
+                </tbody>
+            </table> 
+        </div>
+        <div class="add-container">
+            <div class="input-menu">
+                <div class='add-agent-container'>
+                    <h1>Add Agent</h1>
+                    <label for="agent_name">
+                        <span class='agent-label'>NAME</span>
+                        <input type='text' id='agent_name' placeholder=" Enter agent name">
+                    </label>
+                    <label for="agent_email">
+                        <span class='agent-label'>EMAIL</span>
+                        <input type='email' id='agent_email' placeholder=" Enter agent email">
+                    </label>
+                    <label for="agent_contactnum">
+                        <span class='agent-label'>CONTACT NO.</span>
+                        <input type='text' id='agent_contactnum' placeholder=" Enter agent contact number">
+                    </label>
+                    <div class='add-button-container'><button id='add_agent'>Add agent</button></div>
+                </div>
+                <div class='format-container'>
+                    <h4>Note: Select a row from the table above to fill in the fields.</h4>
+                    <div class="edit-delete">
+                        <div class='edit-agent-container'>
+                            <h1>Edit Agent</h1>
+                            <input type='hidden' id='edit_agent_id'>
+                            <label for="edit_agent_name">
+                                <span class='agent-label'>NAME</span>
+                                <input type='text' id='edit_agent_name' placeholder=" Enter agent name">
+                            </label>
+                            <label for="edit_agent_email">
+                                <span class='agent-label'>EMAIL</span>
+                                <input type='email' id='edit_agent_email' placeholder=" Enter agent email">
+                            </label>
+                            <label for="edit_agent_contactnum">
+                                <span class='agent-label'>CONTACT NO.</span>
+                                <input type='text' id='edit_agent_contactnum' placeholder=" Enter agent contact number">
+                            </label>
+                            <div class='edit-button-container'><button id='edit_agent'>Edit Agent</button></div>
+                        </div>
+                        <div class='delete-agent-container'>
+                            <h1>Delete Agent</h1>
+                            <input type='hidden' id='delete_agent_id'>
+                            <label for="delete_agent_name">
+                                <span class='agent-label'>NAME</span>
+                                <input type='text' id='delete_agent_name' placeholder=" Enter agent name">
+                            </label>
+                            <label for="delete_agent_email">
+                                <span class='agent-label'>EMAIL</span>
+                                <input type='email' id='delete_agent_email' placeholder=" Enter agent email">
+                            </label>
+                            <label for="delete_agent_contactnum">
+                                <span class='agent-label'>CONTACT NO.</span>
+                                <input type='text' id='delete_agent_contactnum' placeholder=" Enter agent contact number">
+                            </label>
+                            <div class='delete-button-container'><button id='delete_agent'>Delete Agent</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src='/agent.js'></script>
+</body>
+</html>

@@ -94,6 +94,18 @@ async function fetchBookings() {
 
             const bookingTotal = parseInt(booking.Booking_Rate)+parseInt(booking.Booking_ExtraPaxFee);
             const row = document.createElement('tr');
+
+            row.setAttribute("data-id", booking.Booking_ID);
+            row.setAttribute("data-datefrom", booking.Booking_DateFrom);
+            row.setAttribute("data-dateto", booking.Booking_DateTo);
+            row.setAttribute("data-unit", booking.Unit_Name);
+            row.setAttribute("data-customername", booking.Customer_Name);
+            row.setAttribute("data-pax", booking.Booking_Pax);
+            row.setAttribute("data-deposit", booking.Booking_Deposit);
+            row.setAttribute("data-payment",booking.Booking_Payment);
+            row.setAttribute("data-agent",booking.Agent_Name);
+
+
             row.innerHTML = `
                 <td>${booking.Booking_ID || '-'}</td>
                 <td>${formatDate(booking.Booking_DateFrom) || '-'}</td>
@@ -109,11 +121,24 @@ async function fetchBookings() {
                 <td>P${booking.Booking_ExtraPaxFee || '0.00'}</td>
                 <td>P${booking.total || '-'}</td>
             `;
+            row.addEventListener("click", ()=> populateInputs(row));
             tableBody.appendChild(row);
         });
     } catch (error) {
         console.error('Error fetching bookings:', error);
     }
+}
+
+function populateInputs(row) {
+    document.getElementById('edit_booking_id').value = row.getAttribute("data-id");
+    document.getElementById('edit_booking_datefrom').value = row.getAttribute("data-datefrom");
+    document.getElementById("edit_booking_dateto").value = row.getAttribute("data-dateto");
+    document.getElementById("edit_customer_name").value = row.getAttribute("data-customername");
+    document.getElementById("edit_unit").value = row.getAttribute("data-unit");
+    document.getElementById("edit_booking_pax").value = row.getAttribute("data-pax");
+    document.getElementById('edit_booking_payment').value = row.getAttribute("data-payment");
+    document.getElementById("edit_agent_name").value = row.getAttribute("data-agent");
+    document.getElementById("edit_booking_commission").value = row.getAttribute("data-commission");
 }
 
 // Fetch unit details and populate dropdown
@@ -145,10 +170,126 @@ async function populateUnits() {
     }
 }
 
+async function populateCustomerName() {
+    const customerNameSelects = document.querySelectorAll('.customer-name-dropdown');
+
+    if (customerNameSelects.length === 0) {
+        console.error("No .customer-name-dropdown elements found!");
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:5500/api/check/customer');
+        const customers = await response.json();
+
+        customerNameSelects.forEach(customerSelect => {
+            customerSelect.innerHTML = '<option value="">Select Customer</option>';
+
+            customers.forEach(customer => {
+                const option = document.createElement('option');
+                option.value = customer.Customer_Name; 
+                option.textContent = `${customer.Customer_Name}`;
+                customerSelect.appendChild(option);
+            });
+        });
+
+    } catch (error) {
+        console.error('Error fetching customers:', error);
+    }
+}
+
+async function populateCustomerEmail() {
+    const customerEmailSelects = document.querySelectorAll('.customer-email-dropdown');
+
+    if (customerEmailSelects.length === 0) {
+        console.error("No .customer-email-dropdown elements found!");
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:5500/api/check/customer');
+        const emails = await response.json();
+
+        customerEmailSelects.forEach(emailSelect => {
+            emailSelect.innerHTML = '<option value="">Select Email</option>';
+
+            emails.forEach(customer => {
+                const option = document.createElement('option');
+                option.value = customer.Customer_Email; 
+                option.textContent = `${customer.Customer_Email}`;
+                emailSelect.appendChild(option);
+            });
+        });
+
+    } catch (error) {
+        console.error('Error fetching customers:', error);
+    }
+}
+
+async function populateAgentName() {
+    const agentNameSelects = document.querySelectorAll('.agent-name-dropdown');
+
+    if (agentNameSelects.length === 0) {
+        console.error("No .agent-name-dropdown elements found!");
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:5500/api/check/agent');
+        const agents = await response.json();
+
+        agentNameSelects.forEach(agentSelect => {
+            agentSelect.innerHTML = '<option value="">Select Agent</option>';
+
+            agents.forEach(agent => {
+                const option = document.createElement('option');
+                option.value = agent.Agent_Name; 
+                option.textContent = `${agent.Agent_Name}`;
+                agentSelect.appendChild(option);
+            });
+        });
+
+    } catch (error) {
+        console.error('Error fetching customers:', error);
+    }
+}
+
+async function populateAgentEmail() {
+    const agentEmailSelects = document.querySelectorAll('.agent-email-dropdown');
+
+    if (agentEmailSelects.length === 0) {
+        console.error("No .agent-email-dropdown elements found!");
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:5500/api/check/agent');
+        const agents = await response.json();
+
+        agentEmailSelects.forEach(agentSelect => {
+            agentSelect.innerHTML = '<option value="">Select Email</option>';
+
+            agents.forEach(agent => {
+                const option = document.createElement('option');
+                option.value = agent.Agent_Email; 
+                option.textContent = `${agent.Agent_Email}`;
+                agentSelect.appendChild(option);
+            });
+        });
+
+    } catch (error) {
+        console.error('Error fetching customers:', error);
+    }
+}
+
 // Ensure this runs when the page loads
 window.onload = () => {
     populateUnits();
     fetchBookings();
+    populateCustomerName();
+    populateCustomerEmail();
+    populateAgentName();
+    populateAgentEmail();
 };
 
 let IDCustomer = null,
@@ -274,9 +415,9 @@ function submitBooking(IDCustomer,IDAgent,unitRate) {
         Agent_ID: IDAgent || null,
         Booking_Rate : unitRate,
         Booking_Payment: document.getElementById("booking_payment").value,
-        Booking_ExtraPaxFee : extraPaxCharge || null
+        Booking_ExtraPaxFee : extraPaxCharge || null,
+        Booking_Commission : document.getElementById('booking_commission').value || null
     };
-    console.log(bookingData);
 
     fetch("http://localhost:5500/api/bookings/post", {
         method: "POST",
@@ -286,6 +427,13 @@ function submitBooking(IDCustomer,IDAgent,unitRate) {
     .then(response => response.json())
     .then(data => {
         alert(data.message || "Booking created!");
+        document.getElementById("booking_datefrom").value = '';
+        document.getElementById("booking_dateto").value = '';
+        document.getElementById("booking_pax").value = '';
+        document.getElementById("booking_deposit").value = '';
+        document.getElementById("unit").value = '';
+        document.getElementById("booking_payment").value = '';
+        document.getElementById('booking_commission').value = '';
         fetchBookings();
     })
     .catch(error => console.error("Error creating booking:", error));
@@ -309,6 +457,10 @@ function postCustomer() {
     .then(response => response.json())
     .then(data => {
         alert(data.message || "Customer Added");
+        document.getElementById('customer_customer_name').value = '';
+        document.getElementById('customer_customer_email').value = '';
+        document.getElementById('customer_customer_contactnum').value = '';
+        document.getElementById('customer_customer_birthdate').value = '';
     })
     .catch(error => console.error("Error adding customer: ", error));
 }
@@ -332,6 +484,9 @@ function postAgent() {
     .then(response => response.json())
     .then(data => {
         alert(data.message || "Agent Added");
+        document.getElementById('agent_agent_name').value = '';
+        document.getElementById('agent_agent_email').value = '';
+        document.getElementById('agent_agent_contactnum').value = '';
     })
     .catch(error => console.error("Error adding agent: ", error));
 }
@@ -430,40 +585,6 @@ async function checkDateConflict(unitId, checkIn, checkOut) {
     }
 }
 
-/* async function getBookingsForUnit(unitId) {
-    try {
-        console.log(`Fetching bookings for unit: ${unitId}`);
-        const response = await fetch('http://localhost:5500/api/check/dates');
-        const bookings = await response.json();
-
-        // Filter bookings that match the given unit ID
-        const unitBookings = bookings
-            .filter(booking => booking.Unit_ID == unitId)
-            .flatMap(booking => {
-                let dates = [];
-                let current = new Date(booking.Booking_DateFrom);
-                let end = new Date(booking.Booking_DateTo);
-
-                // Set time to midnight for proper date comparison
-                current.setHours(0, 0, 0, 0);
-                end.setHours(0, 0, 0, 0);
-
-                while (current <= end) {
-                    dates.push(new Date(current));
-                    current.setDate(current.getDate() + 1);
-                }
-
-                return dates;
-            });
-
-        console.log("Booked Dates:", unitBookings);
-        return unitBookings;
-    } catch (error) {
-        console.error("Error fetching bookings for unit:", error);
-        return [];
-    }
-} */
-
 async function getBookingsForUnit(unitId) {
     try {
         const response = await fetch('http://localhost:5500/api/check/dates');
@@ -481,6 +602,116 @@ async function getBookingsForUnit(unitId) {
     }
 }
 
+document.getElementById('edit-button').addEventListener('click', editBooking);
+
+async function editBooking() {
+
+    const checkIn = document.getElementById("edit_booking_datefrom").value;
+    const checkOut = document.getElementById("edit_booking_dateto").value;
+    const unitId = document.getElementById("edit_unit").value;
+    const customerName = document.getElementById("edit_customer_name").value;
+    const customerEmail = document.getElementById("edit_customer_email").value;
+    const pax = document.getElementById("edit_booking_pax").value || 0;
+    const deposit = document.getElementById("edit_booking_deposit").value;
+    const payment = document.getElementById("edit_booking_payment").value;
+    const agentName = document.getElementById("edit_agent_name").value || "N/A";
+    const agentEmail = document.getElementById("edit_agent_email").value || "N/A";
+    const commission = document.getElementById("edit_booking_commission").value || "0.00";
+    const BookingID = document.getElementById('edit_booking_id').value;
+
+    const { customerID, agentID } = await validateBooking(customerName, customerEmail, agentName, agentEmail);
+    
+            if (!customerID) {
+                alert("Customer not found. Please add them first.");
+                return;
+            }
+            IDCustomer = customerID;
+            IDAgent = agentID;
+    
+            // Step 2: Get Unit Details
+            const unit = await getUnitDetails(unitId);
+            if (!unit) {
+                alert("Unit details not found.");
+                return;
+            }
+
+    unitRate = unit.Unit_Price;
+    let extraPaxCount = pax > unit.Unit_Pax ? pax - unit.Unit_Pax : 0;
+    extraPaxCharge = extraPaxCount > 0 ? extraPaxCount * unit.Unit_ExtraPaxFee : "0.00";
+
+    const bookingData = {
+        Booking_DateFrom: checkIn,
+        Booking_DateTo: checkOut,
+        Booking_Pax: pax,
+        Booking_Deposit: deposit,
+        Unit_ID: unitId,
+        Customer_ID: IDCustomer,
+        Agent_ID: IDAgent || null,
+        Booking_Rate : unitRate,
+        Booking_Payment: payment,
+        Booking_ExtraPaxFee : extraPaxCharge || null,
+        Booking_Commission : commission
+    };
+
+    fetch(`/api/booking/update/${BookingID}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingData)
+    })
+    .then(response => response.json())
+    .then(result => {
+        alert(result.message || "Booking updated successfully");
+        document.getElementById('edit_booking_datefrom').value = "";
+        document.getElementById('edit_booking_dateto').value = "";
+        document.getElementById('edit_customer_name').value = "";
+        document.getElementById('edit_customer_email').value = "";
+        document.getElementById('edit_unit').value = "";
+        document.getElementById('edit_booking_pax').value = "";
+        document.getElementById('edit_booking_payment').value = "";
+        document.getElementById('edit_booking_deposit').value = "";
+        document.getElementById('edit_agent_name').value = "";
+        document.getElementById('edit_agent_email').value = "";
+        document.getElementById('edit_booking_commission').value = "";
+        fetchBookings();
+    })
+    .catch(error => console.error("Error updating booking:", error));
+}
+
+async function getCustomerID(customerName, customerEmail) {
+    try {
+        const response = await fetch(`/api/customers/id?name=${encodeURIComponent(customerName)}&email=${encodeURIComponent(customerEmail)}`);
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log("Customer ID:", data.Customer_ID);
+            return data.Customer_ID;
+        } else {
+            console.error("Error:", data.error);
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching customer ID:", error);
+        return null;
+    }
+}
+
+async function getAgentID(agentName, agentEmail) {
+    try {
+        const response = await fetch(`/api/agent/id?name=${encodeURIComponent(agentName)}&email=${encodeURIComponent(agentEmail)}`);
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log("Agent ID:", data.Agent_ID);
+            return data.Agent_ID;
+        } else {
+            console.error("Error:", data.error);
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching agent ID:", error);
+        return null;
+    }
+}
 
 
 

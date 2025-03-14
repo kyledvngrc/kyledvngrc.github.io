@@ -10,15 +10,16 @@
 <body>
     <header class='header'>
         <div id='header_logo'>
-            <h1>Kelsey's Homestay</h1>
+            <h1><a href='http://localhost:5500/homepage'>Kelsey's Homestay</a></h1>
             <h2>Administrator Portal</h2>
         </div>
         <div id='nav-container'>
             <nav>
-                <a href='#'>Expenses</a>
-                <a href='#'>Properties</a>
-                <a href='#'>Customers</a>
-                <a href='#'>Agents</a>
+                <a href='http://localhost:5500/homepage'>Home</a>
+                <a href='http://localhost:5500/expenses'>Expenses</a>
+                <a href='http://localhost:5500/properties'>Properties</a>
+                <a href='http://localhost:5500/customers'>Customers</a>
+                <a href='http://localhost:5500/agents'>Agents</a>
             </nav>
         </div>
     </header>
@@ -76,8 +77,8 @@
                     <label for='customer'>
                         <span class='booking-label'>CUSTOMER  <sup>*</sup></span>
                         <label id='label2'>
-                            <input type='text' id='customer_name' placeholder='Name' required>
-                            <input type='email' id='customer_email' placeholder='Email' required>
+                            <select class="customer-name-dropdown" id='customer_name'></select>
+                            <select class="customer-email-dropdown" id='customer_email'></select>
                         </label>
                     </label>
                     <label for='booking_pax'>
@@ -99,8 +100,8 @@
                     <label for='agent'>
                         <span class='booking-label'>AGENT</span>
                         <label id='label2'>
-                            <input type='text' id='agent_name' placeholder='Name'>
-                            <input type='email' id='agent_email' placeholder='Email'>
+                            <select class='agent-name-dropdown' id='agent_name'></select>
+                            <select class='agent-email-dropdown' id="agent_email"></select>
                         </label>
                     </label>
                     <label for='booking_commission'>
@@ -176,9 +177,67 @@
                 </tbody>
             </table>            
         </div>
+        <div class='edit-and-delete'>
+            <div class='end_date_container'>
+                <div class='booking-id-container'>
+                    <label for="edit_booking_id">Booking ID:</label>
+                    <input type='text' id='edit_booking_id'>
+                </div>
+                <label for='booking_datefrom'>
+                    <span class='booking-label'>CHECK IN <sup>*</sup></span>
+                    <input type='date' id='edit_booking_datefrom' required>
+                </label>
+                <label for='booking_dateto'>
+                    <span class='booking-label'>CHECK OUT  <sup>*</sup></span>
+                    <input type='date' id='edit_booking_dateto' required>
+                </label>
+            </div>
+            <label for='customer'>
+                <span class='booking-label'>CUSTOMER  <sup>*</sup></span>
+                <label id='label2'>
+                    <select class="customer-name-dropdown" id='edit_customer_name'></select>
+                    <select class="customer-email-dropdown" id='edit_customer_email'></select>
+                </label>
+            </label>
+            <div class='end_unit_container'>
+                <label for='unit'>
+                    <span class='booking-label'>UNIT  <sup>*</sup></span>
+                    <select class='unit-dropdown' id='edit_unit' required>
+                    </select>
+                </label>
+                <label for='booking_pax'>
+                    <span class='booking-label'>NO. OF PAX  <sup>*</sup></span>
+                    <input type='number' id='edit_booking_pax' required>
+                </label>
+            </div>
+            <div class='end_payment_container'>
+                <label for='booking_payment'>
+                    <span class='booking-label'>PAYMENT OPTION  <sup>*</sup></span>
+                    <select id='edit_booking_payment' required>
+                        <option value='Cash'>Cash</option>
+                        <option value='GCash'>Gcash</option>
+                        <option value='Bank Transfer'>Bank Transfer</option>
+                    </select>
+                </label>
+                <label for='booking_deposit'>
+                    <span class='booking-label'>DEPOSIT  <sup>*</sup></span>
+                    <input type='text' id='edit_booking_deposit' required>
+                </label>
+            </div>
+            <label for='agent'>
+                <span class='booking-label'>AGENT</span>
+                <label id='label2'>
+                    <select class='agent-name-dropdown' id='edit_agent_name'></select>
+                    <select class='agent-email-dropdown' id="edit_agent_email"></select>
+                </label>
+            </label>
+            <label for='booking_commission'>
+                <span class='booking-label'>COMMISSION</span>
+                <input type='text' id='edit_booking_commission'>
+            </label>
+        </div>
         <div class='buttons'>
             <button id='edit-button'>Edit Booking</button>
-            <button id='remove-booking'>Remove Booking</button>
         </div>
     </section>
     <div id="confirmation-modal" class="modal">

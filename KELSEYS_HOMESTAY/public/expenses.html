@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/expenses.css'>
+    <title>Expenses</title>
+</head>
+<body>
+    <header class='header'>
+        <div id='header_logo'>
+            <h1><a href='http://localhost:5500/homepage'>Kelsey's Homestay</a></h1>
+            <h2>Administrator Portal</h2>
+        </div>
+        <div id='nav-container'>
+            <nav>
+                <a href='http://localhost:5500/homepage'>Home</a>
+                <a href='http://localhost:5500/expenses'>Expenses</a>
+                <a href='http://localhost:5500/properties'>Properties</a>
+                <a href='http://localhost:5500/customers'>Customers</a>
+                <a href='http://localhost:5500/agents'>Agents</a>
+            </nav>
+        </div>
+    </header>
+    <section class='body'>
+        <h1 id='expenses-header'>Expenses</h1>
+        <div class='table-container'>
+            <table id="expenses-table">
+                <thead>
+                    <tr>
+                        <th class='table-header' >EXPENSES ID</th>
+                        <th class='table-header' >UNIT ID</th>
+                        <th class='table-header' >BILLS ID</th>
+                        <th class='table-header' >DAILY ID</th>
+                        <th class='table-header' >TOTAL COST</th>
+                    </tr>
+                </thead>
+                <tbody id="expenses-body">
+    
+                </tbody>
+            </table> 
+        </div>
+        <div class="dailyexpenses-container">
+            <div class='de_input_menu'>
+                <h1>Daily Expenses</h1>
+                <div class='de_inputs'>
+                    <label for="de_unit">
+                        <span class='exp-label'>UNIT</span>
+                        <select class='unit-dropdown' id='de_unit'></select>
+                    </label>
+                    <label for='de_date'>
+                        <span class='exp-label'>DATE</span>
+                        <input type='date' id='de_date'>
+                    </label>
+                    <label for='de_costname'>
+                        <span class='exp-label'>COST NAME</span>
+                        <input type='text' id='de_costname'>
+                    </label>
+                    <label for='de_cost'>
+                        <span class='exp-label'>COST</span>
+                        <input type='number' id='de_cost'>
+                    </label>
+                    <button id='submit-de'>Submit Expenses</button>
+                </div>
+            </div>
+            <div class='de_table'>
+                <table id='de-table'>
+                    <thead>
+                        <tr>
+                            <th class='table-header'>DAILY ID</th>
+                            <th class='table-header'>UNIT ID</th>
+                            <th class='table-header'>DAILY DATE</th>
+                            <th class='table-header'>COST NAME</th>
+                            <th class='table-header'>COST</th>
+                        </tr>
+                    </thead>
+                    <tbody id="de-body">
+    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class='bills-container'>
+            <div class='bills_table'>
+                <table id='bills-table'>
+                    <thead>
+                        <tr>
+                            <th class='table-header'>BILLS ID</th>
+                            <th class='table-header'>UNIT ID</th>
+                            <th class='table-header'>DAILY DATE</th>
+                            <th class='table-header'>COST NAME</th>
+                            <th class='table-header'>COST</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bills-body">
+    
+                    </tbody>
+                </table>
+            </div>
+            <div class='bills_input_menu'>
+                <h1>Bills</h1>
+                <div class='de_inputs'>
+                    <label for="bills_unit">
+                        <span class='exp-label'>UNIT</span>
+                        <select class='unit-dropdown' id='bills_unit'></select>
+                    </label>
+                    <label for='bills_date'>
+                        <span class='exp-label'>DATE</span>
+                        <input type='date' id='bills_date'>
+                    </label>
+                    <label for='bills_costname'>
+                        <span class='exp-label'>COST NAME</span>
+                        <input type='text' id='bills_costname'>
+                    </label>
+                    <label for='bills_cost'>
+                        <span class='exp-label'>COST</span>
+                        <input type='number' id='bills_cost'>
+                    </label>
+                    <button id='submit-bills'>Submit Bills</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src='/expenses.js'></script>    
+</body>
+</html>

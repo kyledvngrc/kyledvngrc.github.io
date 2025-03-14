@@ -7,12 +7,6 @@
     src: url(/SFPRODISPLAYMEDIUM.OTF);
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
 html, body {
     font-family: "SFPro";
     background-color: #EBD5BF;
@@ -74,7 +68,7 @@ nav {
     flex-direction: column;
     margin-right: 200px;
 }
-#properties-header {
+#customers-header {
     font-size: 40px;
     font-family: "SFProMed";
 }
@@ -87,7 +81,7 @@ nav {
     overflow-y: auto;
 
 }
-#properties-table {
+#customers-table {
     width:100%;
     table-layout: fixed;
 }
@@ -97,6 +91,15 @@ table, tr, td {
     text-align: center;
     font-size: 12px;
     height: 30px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+tr:hover {
+    background: #C5C5C5;
+}
+tr:active {
+    background: #8A8A8A;
 }
 .table-header {
     background-color: #f2f2f2;
@@ -105,13 +108,15 @@ table, tr, td {
     align-self: center;
     font-family: "SFProMed";
 }
-#properties-table th, #properties-table td {
+#customers-table th, #customers-table td {
     white-space: nowrap; /* Prevents text wrapping */
 }
 .add-container {
+    margin-top: 100px;
     margin-bottom: 100px;
 }
 .add-container h1{
+    margin: 0;
     font-size: 40px;
 }
 .input-menu {
@@ -122,14 +127,13 @@ table, tr, td {
     border-radius: 10px;
     padding: 40px;
     display: flex;
-    flex-direction: column;
-}
-.property-input {
-    display: flex;
     flex-direction: row;
-    gap: 40px;
-    margin-bottom: 40px;
-    margin-top: 20px;
+    gap: 150px;
+}
+.add-customer-container, .edit-customer-container, .delete-customer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 .input-menu label {
     display: flex;
@@ -143,28 +147,15 @@ table, tr, td {
 .input-menu input {
     border: 2px solid black;
     border-radius: 10px;
-    height: 30px;
-    width: 400px;
+    height: 25px;
+    width: 300px;
 }
-.property-input #span_building_tower, #span_building_floor {
-    font-size: 11px;
-}
-
-.property-input #building_tower, #building_floor {
-    width: 100px;
-}
-.unit-input {
+.button-container {
+    margin-top: 30px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 40px;
-    margin-bottom: 100px;
-}
-.input-buttons {
-    display:flex;
     gap: 40px;
 }
-.input-buttons input {
+.input-menu button {
     background-color: #665641;
     border:none;
     border-radius: 15px;
@@ -175,9 +166,26 @@ table, tr, td {
     color:white;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
-.input-buttons input:hover {
+.button-container button:hover {
     background: #493D2F;
 }
-.input-buttons input:active {
+.button-container button:active {
     transform: scale(0.98);
+}
+.format-container {
+    display:flex;
+    flex-direction:column;
+    margin-top: -20px;
+
+}
+.format-container h4 {
+    font-family: "SFProMed";
+    color: #6E6E6E;
+    padding: 0;
+    margin: 0;
+}
+.edit-delete {
+    display:flex;
+    flex-direction: row;
+    gap: 150px;
 }

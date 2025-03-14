@@ -17,6 +17,15 @@ app.get('/homepage', (req, res) => {
 app.get('/properties', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/properties.html'));
 });
+app.get('/customers', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/customer.html'));
+});
+app.get('/agents', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/agent.html'));
+});
+app.get('/expenses', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/expenses.html'));
+});
 
 // Database Connection
 const db = mysql.createConnection({
@@ -33,6 +42,26 @@ db.connect(err => {
 });
 
 //REQUESTS FOR HOMEPAGE - START
+
+app.get('/api/customers/id', (req, res) => {
+    const { name, email } = req.query;
+
+    const sql = `SELECT Customer_ID FROM Customer WHERE Customer_Name = ? AND Customer_Email = ?`;
+
+    db.query(sql, [name, email], (err, results) => {
+        if (err) {
+            console.error('Error fetching customer ID:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Customer not found' });
+        }
+
+        res.json({ customerID: results[0].Customer_ID });
+    });
+});
+
 
 //fetch booking table
 app.get('/api/bookings', (req, res) => {
@@ -160,11 +189,12 @@ app.post('/api/bookings/post',(req,res) =>{
         Agent_ID,
         Booking_Rate,
         Booking_Payment,
-        Booking_ExtraPaxFee
+        Booking_ExtraPaxFee,
+        Booking_Commission
     } = req.body
 
-    const sql = `INSERT INTO Booking (Booking_DateFrom, Booking_DateTo, Booking_Pax, Booking_Deposit, Unit_ID, Customer_ID, Agent_ID, Booking_Rate, Booking_Payment, Booking_ExtraPaxFee)
-    VALUES (?, ?, ?, ?, ?, ?, ${Agent_ID ? '?' : 'NULL'}, ?, ?, ?)`
+    const sql = `INSERT INTO Booking (Booking_DateFrom, Booking_DateTo, Booking_Pax, Booking_Deposit, Unit_ID, Customer_ID, Agent_ID, Booking_Rate, Booking_Payment, Booking_ExtraPaxFee, Booking_Commission)
+    VALUES (?, ?, ?, ?, ?, ?, ${Agent_ID ? '?' : 'NULL'}, ?, ?, ?, ${Booking_Commission ? '?' : 'NULL'})`
 
     const values = [
         Booking_DateFrom,
@@ -176,7 +206,8 @@ app.post('/api/bookings/post',(req,res) =>{
         ...(Agent_ID ? [Agent_ID] : []),
         Booking_Rate,
         Booking_Payment,
-        Booking_ExtraPaxFee
+        Booking_ExtraPaxFee,
+        ...(Booking_Commission ? [Booking_Commission] : [])
     ];
 
     db.query(sql, values, (err, result) => {
@@ -195,7 +226,6 @@ app.post('/api/bookings/customer', (req,res) => {
         customer_ContactNum,
         customer_BirthDate
     } = req.body;
-
     const sql = `INSERT INTO Customer (Customer_Name, Customer_Email, Customer_ContactNum, Customer_BirthDate)
     VALUES (?, ?, ?, ?)`;
 
@@ -226,6 +256,66 @@ app.post('/api/bookings/agent', (req,res) => {
         res.status(201).json({message: 'Agent Added Successfully.'});
     });
 });
+
+app.put('/api/booking/update/:BookingID', (req, res) => {
+    const { BookingID } = req.params;
+    const {
+        Booking_DateFrom,
+        Booking_DateTo,
+        Booking_Pax,
+        Booking_Deposit,
+        Unit_ID,
+        Customer_ID,
+        Agent_ID,
+        Booking_Rate,
+        Booking_Payment,
+        Booking_ExtraPaxFee,
+        Booking_Commission
+    } = req.body;
+
+    // SQL query to update booking details
+    const sql = `
+        UPDATE Booking 
+        SET Booking_DateFrom = ?,
+            Booking_DateTo = ?,
+            Booking_Pax = ?,
+            Booking_Deposit = ?,
+            Unit_ID = ?,
+            Customer_ID = ?,
+            Agent_ID = ?,
+            Booking_Rate = ?,
+            Booking_Payment = ?,
+            Booking_ExtraPaxFee = ?,
+            Booking_Commission = ?
+        WHERE Booking_ID = ?`;
+
+    db.query(sql, [
+        Booking_DateFrom,
+        Booking_DateTo,
+        Booking_Pax,
+        Booking_Deposit,
+        Unit_ID,
+        Customer_ID,
+        Agent_ID,
+        Booking_Rate,
+        Booking_Payment,
+        Booking_ExtraPaxFee,
+        Booking_Commission,
+        BookingID
+    ], (err, result) => {
+        if (err) {
+            console.error("Error updating booking:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Booking not found" });
+        }
+
+        res.status(200).json({ message: "Booking updated successfully" });
+    });
+});
+
 
 //REQUESTS FOR HOMEPAGE - END
 
@@ -322,6 +412,248 @@ app.post('/api/properties/units/post',(req,res)=> {
             return res.status(500).json({ error: 'Database error: Insert unit' });
         }
         res.status(201).json({message: 'Property Added Successfully.'});
+    });
+});
+app.get('/api/properties/propertyid',(req,res) => {
+    const {name, address} = req.query;
+
+    const sql = `SELECT Property_ID FROM Property WHERE Property_Name = ? AND Property_Address = ?`;
+
+    db.query(sql, [name, address], (err, results) => {
+        if (err) {
+            console.error('Error fetching Property ID:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Property not found' });
+        }
+
+        res.json({ propertyID: results[0].Property_ID });
+    });
+});
+
+//CUSTOMERS PAGE
+
+app.get('/api/customers/table', (req,res) => {
+    const sql = `SELECT * FROM Customer`;
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching customers:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.json(results);
+    });
+});
+
+app.put('/api/customers/update/:customerID', (req, res) => {
+    const { customerID } = req.params;
+    const { customer_Name, customer_Email, customer_ContactNum, customer_BirthDate } = req.body;
+
+    const sql = `UPDATE Customer SET Customer_Name = ?, Customer_Email = ?, Customer_ContactNum = ?, Customer_BirthDate = ? WHERE Customer_ID = ?`;
+
+    db.query(sql, [customer_Name, customer_Email, customer_ContactNum, customer_BirthDate, customerID], (err, result) => {
+        if (err) {
+            console.error("Error updating customer:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.status(200).json({ message: "Customer updated successfully" });
+    });
+});
+
+app.delete('/api/customers/delete/:customerID', (req, res) => {
+    const { customerID } = req.params;
+
+    const sql = `DELETE FROM Customer WHERE Customer_ID = ?`;
+
+    db.query(sql, [customerID], (err, result) => {
+        if (err) {
+            console.error("Error deleting customer:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.status(200).json({ message: "Customer deleted successfully" });
+    });
+});
+
+// AGENTS
+
+app.get('/api/agents/table', (req,res) => {
+    const sql = `SELECT * FROM Agent`;
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching agents:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.json(results);
+    });
+});
+
+app.put('/api/agents/update/:agentID', (req, res) => {
+    const { agentID } = req.params;
+    const { agent_Name, agent_Email, agent_ContactNum} = req.body;
+
+    const sql = `UPDATE Agent SET Agent_Name = ?, Agent_Email = ?, Agent_ContactNum = ? WHERE Agent_ID = ?`;
+
+    db.query(sql, [agent_Name, agent_Email, agent_ContactNum, agentID], (err, result) => {
+        if (err) {
+            console.error("Error updating agent:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.status(200).json({ message: "Agent updated successfully" });
+    });
+});
+
+app.delete('/api/agent/delete/:agentID', (req, res) => {
+    const { agentID } = req.params;
+
+    const sql = `DELETE FROM Customer WHERE Customer_ID = ?`;
+
+    db.query(sql, [agentID], (err, result) => {
+        if (err) {
+            console.error("Error deleting agent:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.status(200).json({ message: "Agent deleted successfully" });
+    });
+});
+
+// EXPENSES
+
+app.get('/api/bills', (req,res) => {
+    const sql = `SELECT * FROM Bills`;
+
+    db.query(sql, (err, results)=> {
+        if (err) {
+            console.error('Error fetching expenses:', err);
+            return res.status(500).json({error: 'Database error'});
+        }
+        res.json(results);
+    });
+});
+
+app.get('/api/expenses', (req,res) => {
+    const sql = `SELECT * FROM Expenses`;
+
+    db.query(sql, (err, results)=> {
+        if (err) {
+            console.error('Error fetching expenses:', err);
+            return res.status(500).json({error: 'Database error'});
+        }
+        res.json(results);
+    });
+});
+
+app.get('/api/dailyexpenses', (req,res) => {
+    const sql = `SELECT * FROM Daily_Expenses`;
+
+    db.query(sql, (err, results)=> {
+        if (err) {
+            console.error('Error fetching daily expenses:', err);
+            return res.status(500).json({error: 'Database error'});
+        }
+        res.json(results);
+    });
+});
+
+app.get('/api/dailyexpenses/last', (req,res) => {
+    const sql = `SELECT * FROM Daily_Expenses ORDER BY Daily_ID DESC LIMIT 1;`
+
+    db.query(sql, (err, results)=> {
+        if (err) {
+            console.error('Error fetching daily expenses:', err);
+            return res.status(500).json({error: 'Database error'});
+        }
+        res.json(results);
+    });
+});
+
+app.get('/api/bills/last', (req,res) => {
+    const sql = `SELECT * FROM Bills ORDER BY Bills_ID DESC LIMIT 1;`
+
+    db.query(sql, (err, results)=> {
+        if (err) {
+            console.error('Error fetching daily expenses:', err);
+            return res.status(500).json({error: 'Database error'});
+        }
+        res.json(results);
+    });
+});
+
+app.post('/api/dailyexpenses/post', (req,res) => {
+    const {
+        Unit_ID,
+        Daily_Date,
+        Daily_CostName,
+        Daily_Cost
+    } = req.body;
+
+    const sql=`INSERT INTO Daily_Expenses(Unit_ID, Daily_Date, Daily_CostName, Daily_Cost)
+    VALUES (?, ?, ?, ?)`;
+
+    db.query(sql, [Unit_ID, Daily_Date, Daily_CostName, Daily_Cost], (err, results)=> {
+        if (err) {
+            console.error('Error posting daily expenses:', err);
+            return res.status(500).json({error: 'Database error'});
+        }
+        res.status(201).json({message: 'Daily Expenses submitted.'});
+    });
+
+});
+
+app.post('/api/expenses/postde', (req,res) => {
+    const {
+        Unit_ID,
+        Daily_ID,
+        Cost,
+    } = req.body;
+
+    const sql=`INSERT INTO Expenses(Unit_ID, Daily_ID, Exp_TotalCost) VALUES (?,?,?)`;
+
+    db.query(sql, [Unit_ID, Daily_ID, Cost], (err, results) => {
+        if (err) {
+            console.error('Error posting expenses:', err);
+            return res.status(500).json({error: 'Database error'});
+        }
+        res.status(201).json({message: 'Expenses submitted'});
+    });
+});
+
+app.post('/api/expenses/postbills', (req,res) => {
+    const {
+        Unit_ID,
+        Bills_ID,
+        Cost,
+    } = req.body;
+
+    const sql=`INSERT INTO Expenses(Unit_ID, Bills_ID, Exp_TotalCost) VALUES (?,?,?)`;
+
+    db.query(sql, [Unit_ID, Bills_ID, Cost], (err, results) => {
+        if (err) {
+            console.error('Error posting expenses:', err);
+            return res.status(500).json({error: 'Database error'});
+        }
+        res.status(201).json({message: 'Expenses submitted'});
+    });
+});
+
+app.post('/api/bills/post', (req,res)=> {
+    const {
+        Bills_Name,
+        Bills_Date,
+        Unit_ID,
+        Bills_Cost
+    } = req.body;
+
+    const sql = `INSERT INTO Bills(Unit_ID, Bills_Name, Bills_Date, Bills_Cost) VALUES (?,?,?,?)`;
+
+    db.query(sql, [Unit_ID, Bills_Name, Bills_Date, Bills_Cost], (err, reulsts) => {
+        if (err) {
+            console.error('Error posting bills:', err);
+            return res.status(500).json({error: 'Database error'});
+        }
+        res.status(201).json({message: 'Expenses submitted'});
     });
 });
 

@@ -3,7 +3,7 @@ async function loadPropertiesTable() {
         const response = await fetch('/api/properties/units');
         const data = await response.json();
 
-        const tableBody = document.getElementById('booking-body');
+        const tableBody = document.getElementById('properties-body');
         tableBody.innerHTML = ''; // Clear existing content
 
         data.forEach(unit => {
@@ -55,6 +55,7 @@ const addPropertyBtn = document.getElementById('add_property_button').addEventLi
     ) {
         alert('Please fill in all fields');
     } else {
+        console.log(propertyName);
         validateProperty();
     }
 });
@@ -122,28 +123,28 @@ async function addProperty() {
     try {
 
         // Step 1: Check if Property Exists
-        let propertyID = await fetchPropertyID(propertyName,propertyAddress);
-        console.log(propertyID)
+        let propertyID = await fetchPropertyID(propertyName);
+        console.log(propertyID);
         if (!propertyID) {
             const propertyData = {
                 Property_Name: propertyName,
                 Property_Address: propertyAddress
             };
 
-            let propertyResponse = await fetch('http://localhost:5500/api/properties/property/post', {
+            let responseProperty = await fetch('http://localhost:5500/api/properties/property/post', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(propertyData)
             });
+            if (!responseProperty.ok) throw new Error("Failed to add property");
 
-            if (!propertyResponse.ok) throw new Error("Failed to add property");
-
-            let propertyResult = await propertyResponse.json();
-            propertyID = propertyResult.Property_ID; // Get new Property_ID
+            let getPropertyID = await fetchPropertyID(propertyName);
+            propertyID = getPropertyID;
+             // Get new Property_ID
         }
 
         // Step 2: Check if Building Exists
-        let buildingID = fetchBuildingID(buildingTower,buildingFloor);
+        let buildingID = await fetchBuildingID(propertyID,buildingTower,buildingFloor);
         console.log(buildingID);
         if (!buildingID) {
             const buildingData = {
@@ -160,8 +161,8 @@ async function addProperty() {
 
             if (!buildingResponse.ok) throw new Error("Failed to add building");
 
-            let buildingResult = await buildingResponse.json();
-            buildingID = buildingResult.Building_ID; // Get new Building_ID
+            let getBuildingID = await fetchBuildingID(propertyID,buildingTower,buildingFloor);
+            buildingID = getBuildingID;// Get new Building_ID
         }
 
         // Step 3: Add Unit with Building_ID
@@ -191,43 +192,35 @@ async function addProperty() {
     }
 }
 
-async function fetchPropertyID(propertyName, propertyAddress) {
+async function fetchPropertyID(propertyName) {
     try {
         // Make a GET request to your API endpoint
-        let response = await fetch("https://your-api-endpoint.com/properties");
+        let response = await fetch("api/properties/property");
         if (!response.ok) throw new Error("Failed to fetch data");
 
         let data = await response.json(); // Convert response to JSON
 
         // Find the property that matches the criteria
-        let property = data.find(item => item.Property_Name === propertyName && item.Property_Address === propertyAddress);
+        let property = data.find(property => property.Property_Name.toLowerCase() === propertyName.trim().toLowerCase());
 
-        if (property) {
-            return property.PropertyID; // Store propertyID in a variable
-        } else {
-            console.log("Property not found.");
-            return null; // Return null if no match is found
-        }
+        return property ? property.Property_ID : null;
+
     } catch (error) {
         console.error("Error fetching property data:", error);
         return null;
     }
 }
-async function fetchBuildingID(buildingTower, buildingFloor) {
+async function fetchBuildingID(propertyID, buildingTower, buildingFloor) {
     try {
         let response = await fetch('http://localhost:5500/api/properties/buildings');
         if (!response.ok) throw new Error("Failed to fetch data");
 
         let data = await response.json();
 
-        let building = data.find(item => item.Building_Tower === buildingTower && item.Building_Floor === buildingFloor);
+        let building = data.find(item => item.Property_ID === propertyID && item.Building_Tower.trim().toLowerCase() === buildingTower.trim().toLowerCase() && item.Building_Floor === buildingFloor);
 
-        if (building) {
-            return building.BuildingID;
-        } else {
-            console.log("Building not found.");
-            return null;
-        }
+        return building ? building.Building_ID : null;
+
     } catch (error) {
         console.error("Error fetching building data:", error);
         return null;

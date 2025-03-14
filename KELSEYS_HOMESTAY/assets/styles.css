@@ -54,6 +54,10 @@ nav {
 .header h1 {
     margin: 0;
 }
+.header h1 a {
+    text-decoration: none;
+    color:white;
+}
 .header h2 {
     margin-top: 0;
 }
@@ -157,18 +161,6 @@ nav {
     background: #9B59B6;  
 }
 
-/* .days li.booked {
-    background: #9B59B6;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    width: 40px;
-    margin: auto;
-} */
-
 .unit-picker {
     padding: 5px;
     display: flex;
@@ -252,7 +244,7 @@ input[type="date"] {
     width: 305px;
     border-radius: 10px;
 }
-.create-booking select {
+select {
     border: 2px solid black;
     height: 30px;
     width: 310px;
@@ -338,6 +330,13 @@ table, tr, td {
     text-align: center;
     font-size: 12px;
     height: 30px;
+    transition: background-color 0.2s ease;
+}
+tr:hover {
+    background: #C5C5C5;
+}
+tr:active {
+    background: #8A8A8A;
 }
 .table-header {
     background-color: #f2f2f2;
@@ -397,4 +396,47 @@ table, tr, td {
     padding: 10px;
     width: 100px;
     cursor: pointer;
+}
+.edit-and-delete {
+    width:93%;
+    height: 150px;
+    margin-top: 20px;
+    display:flex;
+    flex-direction: row;
+    background: white;
+    border-radius: 15px;
+    align-items: center;
+    padding: 20px;
+    gap: 50px;
+}
+.edit-and-delete input {
+    width: 150px;
+}
+.edit-and-delete select {
+    width: 250px;
+}
+.end_date_container {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+.booking-id-container {
+    display: flex;
+    flex-direction: row;
+}
+.booking-id-container label, #edit_booking_id {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #6E6E6E;
+    font-size: 18px;
+}
+.edit-and-delete #label2 {
+    gap: 20px;
+}
+.edit-and-delete sup {
+    color: red;
+
 }
