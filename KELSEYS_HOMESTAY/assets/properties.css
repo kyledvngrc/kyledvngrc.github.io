@@ -106,7 +106,7 @@ table, tr, td {
     font-family: "SFProMed";
 }
 #properties-table th, #properties-table td {
-    white-space: nowrap; /* Prevents text wrapping */
+    white-space: nowrap;
 }
 .add-container {
     margin-bottom: 100px;

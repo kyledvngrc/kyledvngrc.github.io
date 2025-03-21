@@ -4,7 +4,7 @@ async function loadExpensesTable() {
         const data = await response.json();
 
         const tableBody = document.getElementById('expenses-body');
-        tableBody.innerHTML = ''; // Clear existing content
+        tableBody.innerHTML = ''; 
 
         data.forEach(expenses => {
 
@@ -32,7 +32,7 @@ async function loadDeTable() {
         const data = await response.json();
 
         const tableBody = document.getElementById('de-body');
-        tableBody.innerHTML = ''; // Clear existing content
+        tableBody.innerHTML = ''; 
 
         data.forEach(daily => {
             const formatDate = (dateString) => {
@@ -64,7 +64,7 @@ async function loadBillsTable() {
         const data = await response.json();
 
         const tableBody = document.getElementById('bills-body');
-        tableBody.innerHTML = ''; // Clear existing content
+        tableBody.innerHTML = ''; 
 
         data.forEach(bills => {
             const formatDate = (dateString) => {

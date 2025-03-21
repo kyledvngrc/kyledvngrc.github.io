@@ -4,7 +4,7 @@ async function loadAgentsTable() {
         const data = await response.json();
 
         const tableBody = document.getElementById('agents-body');
-        tableBody.innerHTML = ''; // Clear existing content
+        tableBody.innerHTML = '';
 
         data.forEach(agent => {
             
@@ -134,7 +134,7 @@ document.getElementById('delete_agent').addEventListener('click',deleteAgent);
 
 async function deleteAgent() {
     let agentID = document.getElementById('delete_agent_id').value;
-    if (!confirm("Are you sure you want to delete this agent?")) return; // Confirm before deleting
+    if (!confirm("Are you sure you want to delete this agent?")) return; 
 
     await fetch(`/api/agents/delete/${agentID}`, {
         method: "DELETE",

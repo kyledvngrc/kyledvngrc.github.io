@@ -115,7 +115,7 @@ tr:active {
     font-family: "SFProMed";
 }
 #expenses-table th, #expenses-table td {
-    white-space: nowrap; /* Prevents text wrapping */
+    white-space: nowrap; 
 }
 .expenses-container {
     margin-top: 20px;

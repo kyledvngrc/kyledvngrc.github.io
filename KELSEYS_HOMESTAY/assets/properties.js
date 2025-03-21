@@ -4,8 +4,7 @@ async function loadPropertiesTable() {
         const data = await response.json();
 
         const tableBody = document.getElementById('properties-body');
-        tableBody.innerHTML = ''; // Clear existing content
-
+        tableBody.innerHTML = ''; 
         data.forEach(unit => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -62,11 +61,11 @@ const addPropertyBtn = document.getElementById('add_property_button').addEventLi
 
 async function validateProperty() {
     try {
-        // Fetch all units
+        
         let unitsResponse = await fetch('/api/properties/units');
         let units = await unitsResponse.json();
 
-        // Check if the unit exists (excluding unit_ID and building_ID)
+        
         let unitExists = units.some(unit =>
             unit.unit_name == unitNumber &&
             unit.Unit_Pax == unitPax &&
@@ -81,11 +80,9 @@ async function validateProperty() {
             return;
         }
 
-        // Fetch all buildings
         let buildingsResponse = await fetch('/api/properties/buildings');
         let buildings = await buildingsResponse.json();
 
-        // Check if the building exists (excluding building_ID)
         let buildingExists = buildings.some(building =>
             building.Building_Tower == buildingTower &&
             building.Building_Floor == buildingFloor
@@ -96,11 +93,9 @@ async function validateProperty() {
             return;
         }
 
-        // Fetch all properties
         let propertiesResponse = await fetch('/api/properties/property');
         let properties = await propertiesResponse.json();
 
-        // Check if the property exists (excluding property_ID)
         let propertyExists = properties.some(property =>
             property.Property_Name == propertyName &&
             property.Property_Address == propertyAddress
@@ -111,7 +106,6 @@ async function validateProperty() {
             return;
         }
 
-        // If all exist, notify the user
         alert("This unit is already listed.");
     } catch (error) {
         console.error("Error validating property:", error);
@@ -122,7 +116,6 @@ async function validateProperty() {
 async function addProperty() {
     try {
 
-        // Step 1: Check if Property Exists
         let propertyID = await fetchPropertyID(propertyName);
         console.log(propertyID);
         if (!propertyID) {
@@ -140,10 +133,8 @@ async function addProperty() {
 
             let getPropertyID = await fetchPropertyID(propertyName);
             propertyID = getPropertyID;
-             // Get new Property_ID
         }
 
-        // Step 2: Check if Building Exists
         let buildingID = await fetchBuildingID(propertyID,buildingTower,buildingFloor);
         console.log(buildingID);
         if (!buildingID) {
@@ -162,10 +153,9 @@ async function addProperty() {
             if (!buildingResponse.ok) throw new Error("Failed to add building");
 
             let getBuildingID = await fetchBuildingID(propertyID,buildingTower,buildingFloor);
-            buildingID = getBuildingID;// Get new Building_ID
+            buildingID = getBuildingID;
         }
 
-        // Step 3: Add Unit with Building_ID
         const unitData = {
             Unit_Name: unitNumber,
             Unit_Pax: unitPax,
@@ -194,13 +184,11 @@ async function addProperty() {
 
 async function fetchPropertyID(propertyName) {
     try {
-        // Make a GET request to your API endpoint
         let response = await fetch("api/properties/property");
         if (!response.ok) throw new Error("Failed to fetch data");
 
-        let data = await response.json(); // Convert response to JSON
+        let data = await response.json();
 
-        // Find the property that matches the criteria
         let property = data.find(property => property.Property_Name.toLowerCase() === propertyName.trim().toLowerCase());
 
         return property ? property.Property_ID : null;

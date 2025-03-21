@@ -10,7 +10,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../assets')));
 
-// Route to serve index.html
 app.get('/homepage', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
@@ -27,7 +26,6 @@ app.get('/expenses', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/expenses.html'));
 });
 
-// Database Connection
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -41,7 +39,6 @@ db.connect(err => {
     console.log('Connected to MySQL');
 });
 
-//REQUESTS FOR HOMEPAGE - START
 
 app.get('/api/customers/id', (req, res) => {
     const { name, email } = req.query;
@@ -63,7 +60,7 @@ app.get('/api/customers/id', (req, res) => {
 });
 
 
-//fetch booking table
+
 app.get('/api/bookings', (req, res) => {
     const sql = `
         SELECT 
@@ -95,7 +92,6 @@ app.get('/api/bookings', (req, res) => {
     });
 });
 
-//fetch unit drop down values
 app.get('/api/units', (req, res) => {
     const sql = `
         SELECT 
@@ -116,7 +112,6 @@ app.get('/api/units', (req, res) => {
     });
 });
 
-// Fetch unit details by Unit_ID
 app.get('/api/bookings/units', (req,res) => {
     const sql = `SELECT Unit_ID, Unit_Price, Unit_Pax, Unit_ExtraPaxFee FROM Unit`
 
@@ -177,7 +172,7 @@ app.get('/api/calendar/dates', (req,res)=> {
     });
 });
 
-// Create a booking
+
 app.post('/api/bookings/post',(req,res) =>{
     const {
         Booking_DateFrom,
@@ -273,7 +268,7 @@ app.put('/api/booking/update/:BookingID', (req, res) => {
         Booking_Commission
     } = req.body;
 
-    // SQL query to update booking details
+    
     const sql = `
         UPDATE Booking 
         SET Booking_DateFrom = ?,

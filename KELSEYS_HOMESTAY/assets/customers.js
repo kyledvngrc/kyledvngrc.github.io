@@ -4,7 +4,7 @@ async function loadCustomersTable() {
         const data = await response.json();
 
         const tableBody = document.getElementById('customers-body');
-        tableBody.innerHTML = ''; // Clear existing content
+        tableBody.innerHTML = '';
 
         data.forEach(customer => {
             const formatDate = (dateString) => {
@@ -149,7 +149,7 @@ document.getElementById('delete_customer').addEventListener('click',deleteCustom
 
 async function deleteCustomer() {
     let customerID = document.getElementById('delete_customer_id').value;
-    if (!confirm("Are you sure you want to delete this customer?")) return; // Confirm before deleting
+    if (!confirm("Are you sure you want to delete this customer?")) return; 
 
     await fetch(`/api/customers/delete/${customerID}`, {
         method: "DELETE",
